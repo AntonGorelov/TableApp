@@ -1,0 +1,19 @@
+<div class="btn-toolbar" role="toolbar">
+  <div class="btn-group pull-right">
+    <ul class="pagination">
+
+      <button class="btn btn-sm" [ngClass]="{'disabled': (curIndex == 1)}" (click)="prevPage()">
+        <a> < Пред.</a>
+      </button>
+
+      <button class="btn btn-sm" *ngFor="let page of pagesIndex"  [ngClass]="{'active': (curIndex == page)}" (click)="setPage(page)">
+        <a>{{page}}</a>
+      </button>
+
+      <button class="btn btn-sm" [ngClass]="{'disabled': (curIndex == pageNum || pageNum == 0)}" (click)="nextPage()">
+        <a>След. > </a>
+      </button>
+
+    </ul>
+  </div>
+</div>

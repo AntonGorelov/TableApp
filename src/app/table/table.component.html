@@ -1,0 +1,62 @@
+<div class="app-table-component">
+
+  <div class="app-table-component-actions">
+    <div class="form-inline add-del-col">
+      <div class="form-group">
+        <div class="col-md-8">
+          <input class="form-control" [(ngModel)]="nameColumn" placeholder = "Название столбца" />
+          <button class="btn btn-info"   [disabled]="disableColumn()" (click)="addColumn(nameColumn)">Добавить</button>
+          <button class="btn btn-danger" [disabled]="disableColumn()" (click)="deleteColumn(nameColumn)">Удалить</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-inline add-del-row">
+      <div class="form-group">
+        <div class="col-md-5">
+          <input class="form-control" [(ngModel)]="id" placeholder = "ID" />
+          <input class="form-control" [(ngModel)]="name" placeholder = "Название" />
+          <input class="form-control" [(ngModel)]="price" placeholder = "Цена" />
+          <div>
+            <button class="btn btn-info" (click)="addRow(id,name,price)">Добавить</button>
+            <button class="btn btn-danger" (click)="deleteRow(id)">Удалить</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="form-inline filter">
+      <div class="form-group">
+        <div class="form-control-sm">
+          <input type="text"   class="form-control" id="inputName" placeholder="Поиск элемента" [(ngModel)]="inputName"/>
+          <button class="btn btn-info" (click)="filterByName()">Найти</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-table-component-table">
+    <table class="table table-bordered table-light">
+      <tr>
+        <th *ngFor="let col of columns" (click)="showNote()">
+          {{col}}
+
+          <!-- Template for TableNote Directive -->
+          <p class="app-table-component-table-notes" *tableNote="visible">
+            подробно об элементе
+          </p>
+          <!-- /Template for TableNote Directive -->
+
+        </th>
+      </tr>
+      <tr *ngFor="let navItem of tableService.navItems; let rowIndex = index" app-table-row
+          [item]="navItem"
+          [columns]="columns"
+          [rowIndex]="rowIndex"
+          tableEvent>
+      </tr>
+    </table>
+  </div>
+
+  <app-table-pagination *ngIf="items?.length > 0"></app-table-pagination>
+</div>
+

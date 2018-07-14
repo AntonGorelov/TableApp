@@ -1,0 +1,26 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="app-component">
+  <nav class="navbar fixed-top navbar-light bg-light">
+    <a class="navbar-brand">Table app</a>
+  </nav>
+
+  <app-table [config]="config">
+
+    <ng-template app-table-col let-id="id">
+      <h5>column 1</h5>
+      {{id}}
+    </ng-template>
+
+    <ng-template app-table-col let-name="name">
+      <h5>column 2</h5>
+      {{name}}
+    </ng-template>
+
+    <ng-template app-table-col let-price="price">
+      <h5>column 3</h5>
+      {{price}}
+    </ng-template>
+
+  </app-table>
+
+</div>

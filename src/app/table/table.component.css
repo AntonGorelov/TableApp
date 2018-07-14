@@ -1,0 +1,25 @@
+.app-table-component{
+
+}
+.form-control{
+  margin: 7px 0px;
+}
+.app-table-component-table{
+  padding-top: 70px;
+  width: 46%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.app-table-component-actions{
+  position: fixed;
+  padding-top: 70px;
+}
+.filter{
+  position: fixed;
+  padding: 5px;
+}
+.app-table-component-table-notes{
+  font-size: small;
+  font-weight: normal;
+}
+
