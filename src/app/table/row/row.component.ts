@@ -15,9 +15,6 @@ export class RowComponent implements OnInit {
   // Счетчик по массиву row
   @Input() rowIndex: number;
 
-  // Счетчик по массиву column
-  public index: number;
-
   constructor() {}
 
   ngOnInit() {}

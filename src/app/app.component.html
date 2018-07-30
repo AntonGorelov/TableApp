@@ -6,20 +6,51 @@
 
   <app-table [config]="config">
 
-    <ng-template app-table-col let-id="id">
-      <h5>column 1</h5>
-      {{id}}
-    </ng-template>
+    <!--
+    <ng-template app-table-col name="Id" value="id">
+      <ng-template app-table-header>
+        My header
+      </ng-template>
 
-    <ng-template app-table-col let-name="name">
-      <h5>column 2</h5>
-      {{name}}
+      <ng-template app-table-cell let-index="index">
+        <div (click)="elemClick()">
+          <h5>column 1</h5>
+          {{id}}
+        </div>
+      </ng-template>
     </ng-template>
+    -->
 
-    <ng-template app-table-col let-price="price">
-      <h5>column 3</h5>
-      {{price}}
-    </ng-template>
+    <app-table-col nameCol="Id" value="id">
+      <ng-template app-table-head >
+      </ng-template>
+      <ng-template app-table-cell let-id="id">
+        <div (click)="elemClick()">
+          <h5>column 1</h5>
+          {{id}}
+        </div>
+      </ng-template>
+    </app-table-col>
+
+    <app-table-col nameCol="Name" value="name">
+      <ng-template app-table-head klass="testclass">
+        Header 2
+      </ng-template>
+      <ng-template app-table-cell let-name="name">
+        <h5>column 2</h5>
+        {{name}}
+      </ng-template>
+    </app-table-col>
+
+    <app-table-col nameCol="Price" value="price">
+      <ng-template app-table-head>
+        Header 3
+      </ng-template>
+      <ng-template app-table-cell let-price="price">
+        <h5>column 3</h5>
+        {{price}}
+      </ng-template>
+    </app-table-col>
 
   </app-table>
 

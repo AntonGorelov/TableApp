@@ -12,7 +12,7 @@
     </div>
     <div class="form-inline add-del-row">
       <div class="form-group">
-        <div class="col-md-5">
+        <div class="col-md-8">
           <input class="form-control" [(ngModel)]="id" placeholder = "ID" />
           <input class="form-control" [(ngModel)]="name" placeholder = "Название" />
           <input class="form-control" [(ngModel)]="price" placeholder = "Цена" />
@@ -27,7 +27,7 @@
     <div class="form-inline filter">
       <div class="form-group">
         <div class="form-control-sm">
-          <input type="text"   class="form-control" id="inputName" placeholder="Поиск элемента" [(ngModel)]="inputName"/>
+          <input type="text" class="form-control" id="inputName" placeholder="Поиск элемента" [(ngModel)]="inputName"/>
           <button class="btn btn-info" (click)="filterByName()">Найти</button>
         </div>
       </div>
@@ -37,16 +37,24 @@
   <div class="app-table-component-table">
     <table class="table table-bordered table-light">
       <tr>
-        <th *ngFor="let col of columns" (click)="showNote()">
-          {{col}}
+        <ng-template app-table-head [ngIf]="!isExistNameCol">
+          <td *ngFor="let col of columns">
+            Header
+          </td>
+        </ng-template>
+        <ng-template app-table-head [ngIf]="isExistNameCol">
+          <td *ngFor="let col of columns" (click)="showNote()">
+            {{col}}
 
-          <!-- Template for TableNote Directive -->
-          <p class="app-table-component-table-notes" *tableNote="visible">
-            подробно об элементе
-          </p>
-          <!-- /Template for TableNote Directive -->
+            <!-- Template for TableNote Directive -->
+            <p class="app-table-component-table-notes" *tableNote="visible">
+              подробно об элементе
+            </p>
+            <!-- /Template for TableNote Directive -->
 
-        </th>
+          </td>
+        </ng-template>
+
       </tr>
       <tr *ngFor="let navItem of tableService.navItems; let rowIndex = index" app-table-row
           [item]="navItem"

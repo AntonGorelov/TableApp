@@ -9,14 +9,22 @@ export class TableService {
 
   public tableConfig: any;
 
-  // Элементы для фильтрации
+  // Elements for filtration
   public filteredItems: Item[];
-  // Массив объектов Item[]
+  // Array of objects Item[]
   public items: Item[];
-  // Элементы для навигации
+  // Elements for navigation
   public navItems: Item[];
-  // Шаблоны ячеек таблицы
-  public templates = [];
+  // Table cell templates
+  public templatesCells = [];
+  // Table column templates
+  public templatesHeaders = [];
+  // Array for storing data app-table-col
+  public dataAppTableCol = [];
+  // dataAppTableCol = {
+  //   nameCol: '',
+  //   value:   ''
+  // };
 
   public pageCount = 3;
   public pageSize  = 4;
@@ -25,6 +33,8 @@ export class TableService {
   public pageStart = 1;
   public pagesIndex: Array<number>;
   public inputName: string;
+  // Flag for checking the existence of a column name
+  public isExist = true;
 
   constructor() {}
 

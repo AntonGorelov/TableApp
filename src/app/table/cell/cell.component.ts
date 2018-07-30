@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TableService } from '../../table.service';
 
 @Component({
-  selector: '[app-table-cell]',
+  selector: '[app-table-cell-row]',
   templateUrl: './cell.component.html'
 })
 export class CellComponent implements OnInit {
@@ -15,7 +15,6 @@ export class CellComponent implements OnInit {
   @Input() column: string;
   @Input() item: any;
 
-  public columns = [];
   public items = [];
   public templates = [];
 
@@ -23,10 +22,8 @@ export class CellComponent implements OnInit {
 
   // Инициализация контекста для ngTemplateOutletContext
   public initCellContext() {
-    this.columns = this.tableService.tableConfig.columns;
     this.items = this.tableService.navItems;
-    this.templates = this.tableService.templates;
-    console.log('cell->initCellContext->items:', this.items);
+    this.templates = this.tableService.templatesCells;
   }
 
   ngOnInit() {

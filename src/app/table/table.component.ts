@@ -1,48 +1,79 @@
-import { AfterViewInit, Component, ContentChildren, Input, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, Input, OnInit, TemplateRef, QueryList, AfterContentInit } from '@angular/core';
 import { TableService } from '../table.service';
 import { Item } from '../item';
-import { TableCellDirective } from './table-cell.directive';
+import { TableColDirective } from './table-col.directive';
+import { DataAppTableCol } from '../data-app-table-col';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
-  providers: [TableService]
+  providers: [ TableService ]
 })
 
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   @Input() config;
 
-  // Массив всех элементов
+  // Array of all elements
   public items: Item[] = [];
-  // Массив столбцов
-  public columns: string[];
-  // Название столбца для добавления
+  // Array of columns
+  public columns = [];
+  // Name of column for add and delete in table
   public nameColumn: string;
-  // Элемент для filterName
+  // Element for filterName
   public inputName = this.tableService.inputName;
-  // Флаг для показа подробной информации в таблице
+  // Flag for displaying detailed information in the table
   public visible = false;
 
   public id: number;
   public name: string;
   public price: number;
 
-  // Шаблоны ячеек таблицы
-  public templates = [];
+  // Objects for storing column information for transfer to a service
+  public dataCols = [];
+  // Column Templates
+  public templatesOfColumns = [];
+  // Flag for checking the existence of a column name
+  public isExistNameCol = this.tableService.isExist;
 
-  @ContentChildren(TableCellDirective, { read: TemplateRef })
-  set tableCells(cells) {
-    this.templates = cells.toArray();
-    this.tableService.templates = this.templates;
+  @ContentChildren(TableColDirective) tableColDirectives: QueryList<TableColDirective>;
+
+  ngAfterContentInit(): void {
+
+    this.templatesOfColumns.push(this.tableColDirectives.toArray());
+    // Length of array of template names
+    const lengthOfTemplatesOfColumns = this.templatesOfColumns[0].length;
+    for (let i = 0; i < lengthOfTemplatesOfColumns; i++) {
+      this.columns.push(this.templatesOfColumns[0][i].nameCol);
+
+      this.dataCols[i] = new DataAppTableCol(
+        this.templatesOfColumns[0][i].nameCol,
+        this.templatesOfColumns[0][i].value,
+        this.tableService.templatesHeaders[i],
+        this.tableService.templatesCells[i],
+        this.tableService.tableConfig.header.klass[i]);
+
+      // Checking the existence of a column name
+      if (this.dataCols[i].nameCol === undefined) {
+        this.isExistNameCol = false;
+        this.dataCols[i].nameCol = 'header!';
+      } else {
+        this.isExistNameCol = true;
+      }
+      console.log('TableComponent => isExistNameCol: ', this.isExistNameCol);
+    }
+
+    console.log('table component dataCols =', this.dataCols);
+    // Adding column data to the service
+    // this.tableService.dataAppTableCol = this.dataCols;
   }
 
   constructor(public tableService: TableService) {}
 
   ngOnInit(): void {
     this.tableService.setConfig(this.config);
-    this.columns = this.tableService.tableConfig.columns;
+    // this.columns = this.tableService.tableConfig.columns;
     this.tableService.tableConfig.fetch().subscribe((items) => {
       this.items = items;
       this.tableService.items = this.items;
@@ -51,7 +82,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('tableCells: ', this.tableCells);
   }
 
   addColumn(nameColumn: string) {
@@ -70,17 +100,17 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.tableService.deleteRow(id);
   }
 
-  // Фильтрация элементов таблицы по имени
+  // Filtering table items by name
   filterByName() {
     this.tableService.filterByName();
   }
 
-  // Действие активен для кнопок добавления, удаления
+  // The action is active for the add, delete buttons
   disableColumn() {
     return this.nameColumn === '';
   }
 
-  // Показать информацию в таблице
+  // Show information in the table
   showNote() {
     this.visible = !this.visible;
   }

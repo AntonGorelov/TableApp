@@ -15,8 +15,9 @@ import { FormsModule } from '@angular/forms';
 // Directives
 import { TableEventDirective } from './table/table-event.directive';
 import { TableNoteDirective } from './table/table-note.directive';
+import { TableColDirective } from './table/table-col.directive';
+import { TableHeaderDirective } from './table/table-header.directive';
 import { TableCellDirective } from './table/table-cell.directive';
-
 
 
 @NgModule({
@@ -29,6 +30,8 @@ import { TableCellDirective } from './table/table-cell.directive';
     CellComponent,
     TableEventDirective,
     TableNoteDirective,
+    TableColDirective,
+    TableHeaderDirective,
     TableCellDirective
   ],
   imports: [

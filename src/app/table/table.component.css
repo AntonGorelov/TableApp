@@ -11,8 +11,12 @@
   margin-right: auto;
 }
 .app-table-component-actions{
+  width: 216px;
   position: fixed;
-  padding-top: 70px;
+  padding-top: 63px;
+}
+.form-group{
+  width: 400px;
 }
 .filter{
   position: fixed;
