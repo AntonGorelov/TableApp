@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TableService } from '../../table.service';
 
 @Component({
   selector: '[app-table-row]',
@@ -8,14 +9,17 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class RowComponent implements OnInit {
 
-  // Элемент массива Items
+  // Element of array Items
   @Input() item: any;
-  // Массив заголовков таблицы
+  // Array of name columns table
   @Input() columns: string[];
-  // Счетчик по массиву row
+  // Index in array row
   @Input() rowIndex: number;
 
-  constructor() {}
+  constructor(public tableService: TableService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Add name of class row. Value is set in config
+    this.tableService.classRow = this.tableService.tableConfig.rowClass(this.tableService.items[this.rowIndex]);
+  }
 }

@@ -18,9 +18,11 @@ export class AppComponent {
     columns: ['id', 'name', 'price'],
     header: {
       klass: ['header-test-defaults-class'],
-      align:     'center'
+      align: 'center'
     },
-
+    rowClass: (row) => {
+      return 'custom-row-class';
+    },
     fetch: () => {
       return this.http.get<Item[]>(this._itemsUrl);
     }

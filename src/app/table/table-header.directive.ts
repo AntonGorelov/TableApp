@@ -6,27 +6,15 @@ import { TableService } from '../table.service';
 })
 export class TableHeaderDirective implements OnInit {
 
-  @Input() klass: string;
+  @Input() klass: string[];
+  // Need write all values of input klass
+  public klassList = [];
 
   constructor(private tableService: TableService) {
   }
 
-  ngOnInit() {
-    this.applyNameClasses();
-  }
-
-  applyNameClasses() {
-    const el = document.querySelector('tr');
-    // Add to DOMTokenList - interface, contains list of the class names
-    el.classList.add(...this.tableService.tableConfig.header.klass);
-
-    if (this.klass !== undefined) {
-      this.tableService.tableConfig.header.klass.push(this.klass);
-      // доб на td
-    }
-
-    if (this.tableService.tableConfig.header.klass !== '') {
-
-    }
+  ngOnInit(): void {
+    this.klassList.push(this.klass);
+    this.tableService.singleNameKlasses.push(...this.klassList);
   }
 }

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 import { Item } from './item';
+import { DataAppTableCol } from './data-app-table-col';
 
 @Injectable()
 export class TableService {
@@ -20,7 +21,13 @@ export class TableService {
   // Table column templates
   public templatesHeaders = [];
   // Array for storing data app-table-col
-  public dataAppTableCol = [];
+  public dataAppTableCol: DataAppTableCol[];
+  // Flag for checking the existence of a column name
+  public isExist = true;
+  // Name of columns from app-table-head
+  public singleNameKlasses = [];
+  // Name for rows class
+  public classRow: string;
   // dataAppTableCol = {
   //   nameCol: '',
   //   value:   ''
@@ -33,8 +40,6 @@ export class TableService {
   public pageStart = 1;
   public pagesIndex: Array<number>;
   public inputName: string;
-  // Flag for checking the existence of a column name
-  public isExist = true;
 
   constructor() {}
 

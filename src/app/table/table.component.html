@@ -36,14 +36,15 @@
 
   <div class="app-table-component-table">
     <table class="table table-bordered table-light">
-      <tr>
+      <tr id="nameTd">
         <ng-template app-table-head [ngIf]="!isExistNameCol">
           <td *ngFor="let col of columns">
             Header
           </td>
         </ng-template>
         <ng-template app-table-head [ngIf]="isExistNameCol">
-          <td *ngFor="let col of columns" (click)="showNote()">
+          <td *ngFor="let col of columns; let i = index" (click)="showNote()" [ngClass]="tableService.dataAppTableCol[i].klass[i]"
+          [ngStyle]="{'text-align': tableService.tableConfig.header.align}">
             {{col}}
 
             <!-- Template for TableNote Directive -->
@@ -60,6 +61,7 @@
           [item]="navItem"
           [columns]="columns"
           [rowIndex]="rowIndex"
+          [ngClass]="tableService.classRow"
           tableEvent>
       </tr>
     </table>
