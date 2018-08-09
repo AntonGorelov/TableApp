@@ -23,6 +23,14 @@ export class AppComponent {
     rowClass: (row) => {
       return 'custom-row-class';
     },
+    rowEvents: {
+      click: function (event) {
+        console.log('click => rowEvent');
+      },
+      mouseover: function (event) {
+        console.log('mouseover => rowEvent');
+      }
+    },
     fetch: () => {
       return this.http.get<Item[]>(this._itemsUrl);
     }
@@ -33,6 +41,6 @@ export class AppComponent {
   @Input() rowIndex: number;
 
   public elemClick() {
-    console.log('elemclick->index', 'rowIndex');
+    console.log('elemclick');
   }
 }

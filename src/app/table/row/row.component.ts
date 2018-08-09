@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, Renderer2 } from '@angular/core';
 import { TableService } from '../../table.service';
 
 @Component({
@@ -16,10 +16,27 @@ export class RowComponent implements OnInit {
   // Index in array row
   @Input() rowIndex: number;
 
-  constructor(public tableService: TableService) {}
+  public classRow: string;
+
+  constructor(public  tableService: TableService,
+              private elRef: ElementRef,
+              private renderer: Renderer2) {
+    // Events are setting in config
+    for (const eventConfig in this.tableService.tableConfig.rowEvents) {
+      this.renderer.listen(elRef.nativeElement, eventConfig, (event) => {
+        this.tableService.tableConfig.rowEvents[eventConfig](event);
+      });
+    }
+
+    // this.renderer.listen(elRef.nativeElement, 'click', (event) => {
+    //   this.tableService.tableConfig.rowEvents.click(event);
+    // });
+
+  }
 
   ngOnInit() {
     // Add name of class row. Value is set in config
-    this.tableService.classRow = this.tableService.tableConfig.rowClass(this.tableService.items[this.rowIndex]);
+    // debugger;
+    this.classRow = this.tableService.tableConfig.rowClass(this.tableService.items[this.rowIndex]);
   }
 }
