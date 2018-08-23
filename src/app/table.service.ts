@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError } from 'rxjs/operators';
+
 import { Item } from './item';
 import { DataAppTableCol } from './data-app-table-col';
+import { Pagination } from './table/pagination';
+
 
 @Injectable()
 export class TableService {
 
   public tableConfig: any;
 
-  // Elements for filtration
-  public filteredItems: Item[];
   // Array of objects Item[]
   public items: Item[];
   // Elements for navigation
@@ -32,105 +30,42 @@ export class TableService {
   //   nameCol: '',
   //   value:   ''
   // };
-
-  public pageCount = 3;
-  public pageSize  = 4;
-  public pageNum   = 0;
-  public curIndex  = 1;
-  public pageStart = 1;
-  public pagesIndex: Array<number>;
   public inputName: string;
+  public pages = new Pagination();
 
-  constructor() {}
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
+  constructor() {
   }
 
   public setConfig(config) {
     this.tableConfig = config;
   }
 
-  // Table Pagination
-
-  init() {
-    this.curIndex = 1;
-    this.pageStart = 1;
-    this.pageCount = 4;
-
-    this.filteredItems = this.items;
-    this.navItems = this.filteredItems;
-
-    this.pageNum = parseInt('' + (this.navItems.length / this.pageSize));
-    if (this.navItems.length % this.pageSize !== 0) {
-      this.pageNum ++;
-    }
-
-    if (this.pageNum < this.pageCount) {
-      this.pageCount =  this.pageNum;
-    }
-
-    this.refreshItems();
-  }
-
-  arrayOfPageIndex(): any {
-    const obj = new Array();
-    for (let index = this.pageStart; index < this.pageStart + this.pageCount; index++) {
-      obj.push(index);
-    }
-    return obj;
-  }
-
-  filterByName() {
-    this.navItems = [];
-    const inputVal = (<HTMLInputElement>document.getElementById('inputName')).value;
-    if (inputVal !== '') {
-      this.items.forEach(element => {
-        if (element.name.indexOf(inputVal) >= 0) {
-          this.navItems.push(element);
-        }
-      });
-    } else {
+  public getData() {
+    this.tableConfig.fetch(this.pages.query).subscribe((items) => {
+      this.items = items.data.objects;
       this.navItems = this.items;
+
+      this.pages.query.count = items.data.paging.records;
+      this.pages.query.limit = items.data.paging.limit;
+      this.pages.query.page  = items.data.paging.page;
+      this.pages.query.countPages = items.data.paging.pages;
+      this.pages.updateItems();
+    });
+    this.isLimit();
+  }
+
+  // Default limit value, if value in config is not exist
+  public isLimit() {
+    if (this.tableConfig.limits.length === 0) {
+      this.tableConfig.limits.push(this.pages.query.limit);
     }
   }
 
-  refreshItems() {
-    this.navItems = this.filteredItems.slice((this.curIndex - 1) * this.pageSize, (this.curIndex) * this.pageSize);
-    this.pagesIndex =  this.arrayOfPageIndex();
-    console.log('curIndex =', this.curIndex);
+  // Set limit value in tableComponent
+  public showCountPages(count: number) {
+    this.pages.query.limit = count;
+    this.pages.setPage(1);
   }
-
-  prevPage() {
-    if (this.curIndex > 1) {
-      this.curIndex --;
-    }
-    if (this.curIndex < this.pageStart) {
-      this.pageStart = this.curIndex;
-    }
-    this.refreshItems();
-  }
-
-  nextPage() {
-    if (this.curIndex < this.pageNum) {
-      this.curIndex ++;
-    }
-    if (this.curIndex >= (this.pageStart + this.pageCount)) {
-      this.pageStart = this.curIndex - this.pageCount + 1;
-    }
-
-    this.refreshItems();
-  }
-
-  setPage(index: number) {
-    this.curIndex = index;
-    this.refreshItems();
-  }
-
-  // Dynamically changed data in table
 
   addColumn(name: string) {
     this.tableConfig.columns.push(name);

@@ -27,11 +27,18 @@
     <div class="form-inline filter">
       <div class="form-group">
         <div class="form-control-sm">
-          <input type="text" class="form-control" id="inputName" placeholder="Поиск элемента" [(ngModel)]="inputName"/>
-          <button class="btn btn-info" (click)="filterByName()">Найти</button>
+          <input type="text" class="form-control" id="inputName" placeholder="Поиск элемента" [(ngModel)]="inputName" #search/>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="dropdown">
+    <select name="" id="" (change)="showCountPages($event.target.value)">
+      <option value="{{c}}" *ngFor="let c of config.limits">
+        {{c}}
+      </option>
+    </select>
   </div>
 
   <div class="app-table-component-table">
@@ -67,6 +74,6 @@
     </table>
   </div>
 
-  <app-table-pagination *ngIf="items?.length > 0"></app-table-pagination>
+  <app-table-pagination *ngIf="tableService.items?.length > 0"></app-table-pagination>
 </div>
 

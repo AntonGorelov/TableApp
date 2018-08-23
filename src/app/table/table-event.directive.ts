@@ -5,10 +5,11 @@ import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 })
 export class TableEventDirective {
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
+  constructor(private _elementRef: ElementRef, private renderer: Renderer2) {
   }
 
-  @HostListener('mouseenter') onMouseEnter() {
+  @HostListener('mouseenter')
+  public onMouseEnter() {
     this.changeColor('red');
   }
 
@@ -17,6 +18,6 @@ export class TableEventDirective {
   }
 
   private changeColor(color: string) {
-    this.renderer.setStyle(this.elementRef.nativeElement, 'color', color);
+    this.renderer.setStyle(this._elementRef.nativeElement, 'color', color);
   }
 }

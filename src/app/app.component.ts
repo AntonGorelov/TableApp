@@ -10,12 +10,14 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   title = 'app';
 
-  private _itemsUrl = 'api/items';  // URL to web api
+  // URL to web api
+  private _itemsUrl = 'https://boilerplate.firestitch.com/api/dummy';
 
   constructor(private http: HttpClient) {}
 
   public config = {
     columns: ['id', 'name', 'price'],
+    limits: [5, 10, 20, 30, 70],
     header: {
       klass: ['header-test-defaults-class'],
       align: 'center'
@@ -31,12 +33,27 @@ export class AppComponent {
         console.log('mouseover => rowEvent');
       }
     },
-    fetch: () => {
-      return this.http.get<Item[]>(this._itemsUrl);
+    rowClassActions: [
+      {
+        click: (row, event) => {
+          // row.show = !row.show;
+          console.log('Cancel', row, event);
+        },
+        label: 'Cancel',
+      },
+      {
+        click: (row, event) => {
+          // row.show = !row.show;
+          console.log('Save', row, event);
+        },
+        label: 'Save',
+      }
+    ],
+    fetch: (query) => {
+      return this.http.get<Item[]>(this._itemsUrl, { params: query });
     }
   };
 
-  // Индексы колонки и столбца в шаблоне
   @Input() index: number;
   @Input() rowIndex: number;
 

@@ -1,8 +1,20 @@
-import { AfterViewInit, Component, ContentChildren, Input, OnInit, TemplateRef, QueryList, AfterContentInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ContentChildren,
+  Input,
+  OnInit,
+  TemplateRef,
+  QueryList,
+  AfterContentInit,
+  ElementRef, ViewChild
+} from '@angular/core';
 import { TableService } from '../table.service';
-import { Item } from '../item';
 import { TableColDirective } from './table-col.directive';
 import { DataAppTableCol } from '../data-app-table-col';
+import { Observable } from 'rxjs/Observable';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-table',
@@ -19,8 +31,6 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   public name: string;
   public price: number;
 
-  // Array of all elements
-  public items: Item[] = [];
   // Array of columns
   public columns = [];
   // Name of column for add and delete in table
@@ -37,6 +47,9 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   public isExistNameCol = this.tableService.isExist;
   // Array for save name of classes from config and app-table-head selector
   public fillKlass = [];
+
+  @ViewChild('search')
+  searchField: ElementRef;
 
   @ContentChildren(TableColDirective) tableColDirectives: QueryList<TableColDirective>;
 
@@ -75,12 +88,12 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   ngOnInit(): void {
     this.tableService.setConfig(this.config);
-    // this.columns = this.tableService.tableConfig.columns;
-    this.tableService.tableConfig.fetch().subscribe((items) => {
-      this.items = items;
-      this.tableService.items = this.items;
-      this.tableService.init();
+    this.tableService.getData();
+
+    this.tableService.pages.itemSubject.subscribe(() => {
+      this.tableService.getData();
     });
+    this.filterByName();
   }
 
   ngAfterViewInit(): void {
@@ -104,7 +117,12 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   // Filtering table items by name
   filterByName() {
-    this.tableService.filterByName();
+    // this.tableService.filterByName();
+    // this.elementRef.nativeElement()
+    fromEvent(this.searchField.nativeElement, 'keyup').pipe(debounceTime(500)).subscribe( () => {
+        this.tableService.pages.query.keyword = this.searchField.nativeElement.value;
+        this.tableService.getData();
+    });
   }
 
   // The action is active for the add, delete buttons
@@ -115,6 +133,10 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   // Show information in the table
   showNote() {
     this.visible = !this.visible;
+  }
+
+  showCountPages(count: number) {
+    this.tableService.showCountPages(count);
   }
 
 }

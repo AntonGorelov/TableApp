@@ -6,25 +6,10 @@
 
   <app-table [config]="config">
 
-    <!--
-    <ng-template app-table-col name="Id" value="id">
-      <ng-template app-table-header>
-        My header
-      </ng-template>
-
-      <ng-template app-table-cell let-index="index">
-        <div (click)="elemClick()">
-          <h5>column 1</h5>
-          {{id}}
-        </div>
-      </ng-template>
-    </ng-template>
-    -->
-
-    <app-table-col nameCol="Id" value="id">
+    <app-table-col nameCol="Date" value="date">
       <ng-template app-table-head klass="idclass">
       </ng-template>
-      <ng-template app-table-cell let-id="id">
+      <ng-template app-table-cell let-id="date">
         <div (click)="elemClick()">
           <h5>column 1</h5>
           {{id}}
@@ -41,10 +26,10 @@
       </ng-template>
     </app-table-col>
 
-    <app-table-col nameCol="Price" value="price">
+    <app-table-col nameCol="Guid" value="guid">
       <ng-template app-table-head klass="priceclass">
       </ng-template>
-      <ng-template app-table-cell let-price="price">
+      <ng-template app-table-cell let-price="guid">
         <h5>column 3</h5>
         {{price}}
       </ng-template>

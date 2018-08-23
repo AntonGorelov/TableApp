@@ -4,5 +4,17 @@
     [column]="col"
     [rowIndex]="rowIndex">
 </td>
-<!--<td *ngFor="let col of columns; let i = index">sss-->
-<!--</td>-->
+
+<!-- Click buttons for every row -->
+
+<td>
+  <button class="btn btn-sm btn-danger btn-in-row"
+          *ngFor="let btn of this.tableService.tableConfig.rowClassActions; let configBtn = index"
+          (click)="actionsClick(rowIndex, $event, configBtn)">
+    {{btn.label}}
+  </button>
+
+  <!--<button class="btn btn-sm btn-danger" (click)="actionsClick(rowIndex, $event)">-->
+    <!--{{this.tableService.tableConfig.rowClassActions[1].label}}-->
+  <!--</button>-->
+</td>

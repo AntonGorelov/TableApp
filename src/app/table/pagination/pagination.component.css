@@ -7,6 +7,9 @@
 .btn-group label{
   margin-top:10px;
 }
+.btn {
+  margin: 0px 7px;
+}
 .pagination{
   margin: 0px !important;
 }

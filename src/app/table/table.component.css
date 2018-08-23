@@ -6,7 +6,7 @@
 }
 .app-table-component-table{
   padding-top: 70px;
-  width: 46%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -16,7 +16,7 @@
   padding-top: 63px;
 }
 .form-group{
-  width: 400px;
+
 }
 .filter{
   position: fixed;
@@ -26,4 +26,16 @@
   font-size: small;
   font-weight: normal;
 }
-
+.dropdown {
+  position: fixed;
+  margin-top: 414px;
+  padding-left: 13px;
+}
+.dropdown select {
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

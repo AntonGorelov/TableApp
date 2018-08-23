@@ -37,9 +37,9 @@ import { TableCellDirective } from './table/table-cell.directive';
   imports: [
     BrowserModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    ),
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   InMemoryDataService, { dataEncapsulation: false }
+    // ),
     FormsModule
   ],
   bootstrap: [AppComponent]

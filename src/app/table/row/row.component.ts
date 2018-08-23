@@ -27,11 +27,9 @@ export class RowComponent implements OnInit {
         this.tableService.tableConfig.rowEvents[eventConfig](event);
       });
     }
-
     // this.renderer.listen(elRef.nativeElement, 'click', (event) => {
     //   this.tableService.tableConfig.rowEvents.click(event);
     // });
-
   }
 
   ngOnInit() {
@@ -39,4 +37,10 @@ export class RowComponent implements OnInit {
     // debugger;
     this.classRow = this.tableService.tableConfig.rowClass(this.tableService.items[this.rowIndex]);
   }
+
+  actionsClick(rowIndex, event: MouseEvent, btn) {
+    this.tableService.tableConfig.rowClassActions[btn].click(rowIndex, event);
+    console.log('Data ', this.tableService.items[this.rowIndex]);
+  }
+
 }

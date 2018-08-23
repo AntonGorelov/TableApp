@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from '../../item';
 import { TableService } from '../../table.service';
 
 @Component({
@@ -9,27 +8,46 @@ import { TableService } from '../../table.service';
 })
 export class PaginationComponent implements OnInit {
 
-  public items: Item[];
-  public curIndex   = this.tableService.curIndex;
-  public pageNum    = this.tableService.pageNum;
-  public pagesIndex = this.tableService.pagesIndex;
+  public curIndex   = this.tableService.pages.query.page;
+  public pageNum    = this.tableService.pages.query.countPages;
+  public pagesIndex = this.tableService.pages.pagesIndex;
 
   constructor(private tableService: TableService) {}
 
   ngOnInit() {
-    this.items = this.tableService.items;
   }
 
   prevPage() {
-    this.tableService.prevPage();
+    this.tableService.pages.prevPage();
+    this.pagesIndex = this.arrayPages();
   }
 
   setPage(index: number) {
-    this.tableService.setPage(index);
+    this.tableService.pages.setPage(index);
+    this.pagesIndex = this.arrayPages();
   }
 
   nextPage() {
-    this.tableService.nextPage();
+    this.tableService.pages.nextPage();
+    this.pagesIndex = this.arrayPages();
+  }
+
+  fstPage() {
+    this.tableService.pages.fstPage();
+    this.pagesIndex = this.arrayPages();
+  }
+
+  lastPage() {
+    this.tableService.pages.lastPage();
+    this.pagesIndex = this.arrayPages();
+  }
+
+  arrayPages(): any {
+    this.tableService.pages.arrayPages();
+  }
+
+  setStyle(page) {
+    return { 'font-weight': page === this.tableService.pages.query.page ? 'bold' : 'normal' };
   }
 
 }
