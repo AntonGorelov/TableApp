@@ -1,17 +1,13 @@
-import { Item } from '../item';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
-export class Pagination {
 
-  // Array of objects Item[]
-  public items: Item[];
-  // Elements for navigation
-  public navItems: Item[];
+export class Pagination {
 
   public pageStart = 1;
   public delta = 2;
   public pagesIndex: Array<number>;
+  public pages = [];
 
   public query = {
     // Total count of elements from API
@@ -20,7 +16,7 @@ export class Pagination {
     limit: 5,
     // Current page
     page: 1,
-    // Count pages
+    // Count pagination
     countPages: 0,
     // Search query
     keyword: ''
@@ -39,25 +35,31 @@ export class Pagination {
     return this._itemSubject.next();
   }
 
-  public pages = [];
+  // Set values in query: count, limit, page, countPages
+  public setQuery(query) {
+    this.query.count = query.paging.records;
+    this.query.limit = query.paging.limit;
+    this.query.page  = query.paging.page;
+    this.query.countPages = query.paging.pages;
+  }
 
   constructor() {
   }
 
   // Finding start index
-  deltaStart() {
+  public deltaStart() {
     const start = this.query.page - this.delta;
     return (start > 0) ? start : 1;
   }
 
   // Finding end index
-  deltaEnd() {
+  public deltaEnd() {
     const end = this.query.page + this.delta;
     return (end < this.query.countPages) ? end : this.query.countPages;
   }
 
   // Adding elements for navigation bar in array
-  arrayPages() {
+  public arrayPages() {
     this.pages = [];
     for (let i = this.deltaStart(); i < this.deltaEnd() + 1; i++) {
       this.pages.push(i);
@@ -65,11 +67,11 @@ export class Pagination {
     return this.pages;
   }
 
-  updateItems() {
+  public updateItems() {
     this.pagesIndex = this.arrayPages();
   }
 
-  prevPage() {
+  public prevPage() {
     if (this.query.page > 1) {
       this.query.page --;
     }
@@ -77,33 +79,28 @@ export class Pagination {
       this.pageStart = this.query.page;
     }
     this._itemSubject.next();
-    this.updateItems();
   }
 
-  nextPage() {
+  public nextPage() {
     if (this.query.page < this.query.countPages) {
       this.query.page ++;
     }
     this._itemSubject.next();
-    this.updateItems();
   }
 
-  setPage(index: number) {
+  public setPage(index: number) {
     this.query.page = index;
     this._itemSubject.next();
-    this.updateItems();
   }
 
-  fstPage() {
+  public fstPage() {
     this.query.page = this.pageStart;
     this._itemSubject.next();
-    this.updateItems();
   }
 
-  lastPage() {
+  public lastPage() {
     this.query.page = this.query.countPages;
     this._itemSubject.next();
-    this.updateItems();
   }
 
 }

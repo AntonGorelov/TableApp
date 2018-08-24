@@ -31,7 +31,7 @@ export class TableService {
   //   value:   ''
   // };
   public inputName: string;
-  public pages = new Pagination();
+  public pagination = new Pagination();
 
   constructor() {
   }
@@ -41,15 +41,13 @@ export class TableService {
   }
 
   public getData() {
-    this.tableConfig.fetch(this.pages.query).subscribe((items) => {
+    this.tableConfig.fetch(this.pagination.query).subscribe((items) => {
       this.items = items.data.objects;
       this.navItems = this.items;
 
-      this.pages.query.count = items.data.paging.records;
-      this.pages.query.limit = items.data.paging.limit;
-      this.pages.query.page  = items.data.paging.page;
-      this.pages.query.countPages = items.data.paging.pages;
-      this.pages.updateItems();
+      // Set server response values to query values
+      this.pagination.setQuery(items.data);
+      this.pagination.updateItems();
     });
     this.isLimit();
   }
@@ -57,59 +55,22 @@ export class TableService {
   // Default limit value, if value in config is not exist
   public isLimit() {
     if (this.tableConfig.limits.length === 0) {
-      this.tableConfig.limits.push(this.pages.query.limit);
+      this.tableConfig.limits.push(this.pagination.query.limit);
     }
   }
 
   // Set limit value in tableComponent
-  public showCountPages(count: number) {
-    this.pages.query.limit = count;
-    this.pages.setPage(1);
+  public setCountPages(count: number) {
+    this.pagination.query.limit = count;
+    this.pagination.setPage(1);
   }
 
-  addColumn(name: string) {
-    this.tableConfig.columns.push(name);
+  addTemplateHeaders(headerTemplate: any) {
+    this.templatesHeaders.push(headerTemplate);
   }
 
-  deleteColumn(name: string) {
-    let index = -1;
-    const colArray = this.tableConfig.columns;
-    for (let i = 1; i < colArray.length; i++) {
-      if (colArray[i] === name) {
-        index = i;
-        break;
-      }
-    }
-    if (index > 0) {
-      this.tableConfig.columns.splice(index, 1);
-    }
-    if (index === -1) {
-      console.log('dont delete column in table');
-    }
-  }
-
-  addRow(id: number, name: string, price: number) {
-    const item = new Item(id, name, price);
-    this.items.push(item);
-    console.log('add row -> item: ', this.items);
-  }
-
-  deleteRow(id: number) {
-    let index = -1;
-    const itemArray = this.items;
-    for (let i = 1; i < itemArray.length; i++) {
-      if (id == itemArray[i].id) {
-        index = i;
-        console.log('del row -> index =', index);
-        break;
-      }
-    }
-    if (index > 0) {
-      itemArray.splice(index, 1);
-    }
-    if (index === -1) {
-      console.log('dont delete row item in table');
-    }
+  addTemplateCells(cellTemplate: any) {
+    this.templatesCells.push(cellTemplate);
   }
 
 }

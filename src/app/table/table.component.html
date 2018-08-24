@@ -1,29 +1,6 @@
 <div class="app-table-component">
 
   <div class="app-table-component-actions">
-    <div class="form-inline add-del-col">
-      <div class="form-group">
-        <div class="col-md-8">
-          <input class="form-control" [(ngModel)]="nameColumn" placeholder = "Название столбца" />
-          <button class="btn btn-info"   [disabled]="disableColumn()" (click)="addColumn(nameColumn)">Добавить</button>
-          <button class="btn btn-danger" [disabled]="disableColumn()" (click)="deleteColumn(nameColumn)">Удалить</button>
-        </div>
-      </div>
-    </div>
-    <div class="form-inline add-del-row">
-      <div class="form-group">
-        <div class="col-md-8">
-          <input class="form-control" [(ngModel)]="id" placeholder = "ID" />
-          <input class="form-control" [(ngModel)]="name" placeholder = "Название" />
-          <input class="form-control" [(ngModel)]="price" placeholder = "Цена" />
-          <div>
-            <button class="btn btn-info" (click)="addRow(id,name,price)">Добавить</button>
-            <button class="btn btn-danger" (click)="deleteRow(id)">Удалить</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
     <div class="form-inline filter">
       <div class="form-group">
         <div class="form-control-sm">
@@ -34,7 +11,7 @@
   </div>
 
   <div class="dropdown">
-    <select name="" id="" (change)="showCountPages($event.target.value)">
+    <select name="" id="" (change)="setCountPages($event.target.value)">
       <option value="{{c}}" *ngFor="let c of config.limits">
         {{c}}
       </option>
@@ -60,6 +37,8 @@
             </p>
             <!-- /Template for TableNote Directive -->
 
+          </td>
+          <td *ngIf="this.tableService.tableConfig.rowClassActions.length > 0">
           </td>
         </ng-template>
 

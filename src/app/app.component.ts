@@ -36,14 +36,12 @@ export class AppComponent {
     rowClassActions: [
       {
         click: (row, event) => {
-          // row.show = !row.show;
           console.log('Cancel', row, event);
         },
         label: 'Cancel',
       },
       {
         click: (row, event) => {
-          // row.show = !row.show;
           console.log('Save', row, event);
         },
         label: 'Save',

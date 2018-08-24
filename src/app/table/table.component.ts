@@ -4,17 +4,18 @@ import {
   ContentChildren,
   Input,
   OnInit,
-  TemplateRef,
   QueryList,
   AfterContentInit,
   ElementRef, ViewChild
 } from '@angular/core';
+
 import { TableService } from '../table.service';
 import { TableColDirective } from './table-col.directive';
 import { DataAppTableCol } from '../data-app-table-col';
-import { Observable } from 'rxjs/Observable';
+
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import {debounceTime} from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-table',
@@ -49,9 +50,10 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   public fillKlass = [];
 
   @ViewChild('search')
-  searchField: ElementRef;
+  public searchField: ElementRef;
 
-  @ContentChildren(TableColDirective) tableColDirectives: QueryList<TableColDirective>;
+  @ContentChildren(TableColDirective)
+  public tableColDirectives: QueryList<TableColDirective>;
 
   ngAfterContentInit(): void {
 
@@ -90,7 +92,7 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.tableService.setConfig(this.config);
     this.tableService.getData();
 
-    this.tableService.pages.itemSubject.subscribe(() => {
+    this.tableService.pagination.itemSubject.subscribe(() => {
       this.tableService.getData();
     });
     this.filterByName();
@@ -99,44 +101,21 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   ngAfterViewInit(): void {
   }
 
-  addColumn(nameColumn: string) {
-    this.tableService.addColumn(nameColumn);
-  }
-
-  deleteColumn(nameColumn: string) {
-    this.tableService.deleteColumn(nameColumn);
-  }
-
-  addRow(id: number, name: string, price: number) {
-    this.tableService.addRow(id, name, price);
-  }
-
-  deleteRow(id: number) {
-    this.tableService.deleteRow(id);
-  }
-
   // Filtering table items by name
-  filterByName() {
-    // this.tableService.filterByName();
-    // this.elementRef.nativeElement()
+  public filterByName() {
     fromEvent(this.searchField.nativeElement, 'keyup').pipe(debounceTime(500)).subscribe( () => {
-        this.tableService.pages.query.keyword = this.searchField.nativeElement.value;
+        this.tableService.pagination.query.keyword = this.searchField.nativeElement.value;
         this.tableService.getData();
     });
   }
 
-  // The action is active for the add, delete buttons
-  disableColumn() {
-    return this.nameColumn === '';
-  }
-
   // Show information in the table
-  showNote() {
+  public showNote() {
     this.visible = !this.visible;
   }
 
-  showCountPages(count: number) {
-    this.tableService.showCountPages(count);
+  public setCountPages(count: number) {
+    this.tableService.setCountPages(count);
   }
 
 }

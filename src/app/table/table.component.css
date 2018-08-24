@@ -1,26 +1,14 @@
-.app-table-component{
-
-}
-.form-control{
-  margin: 7px 0px;
-}
 .app-table-component-table{
   padding-top: 70px;
   width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
-.app-table-component-actions{
-  width: 216px;
-  position: fixed;
-  padding-top: 63px;
-}
-.form-group{
-
-}
 .filter{
   position: fixed;
   padding: 5px;
+  z-index: 2000;
+  margin-left: 200px;
 }
 .app-table-component-table-notes{
   font-size: small;
@@ -28,8 +16,8 @@
 }
 .dropdown {
   position: fixed;
-  margin-top: 414px;
-  padding-left: 13px;
+  margin: 11px 417px;
+  z-index: 2000;
 }
 .dropdown select {
   padding: 5px 35px 5px 5px;

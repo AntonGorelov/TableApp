@@ -18,23 +18,19 @@ export class RowComponent implements OnInit {
 
   public classRow: string;
 
-  constructor(public  tableService: TableService,
-              private elRef: ElementRef,
-              private renderer: Renderer2) {
+  constructor(public tableService: TableService,
+              private _elRef: ElementRef,
+              private _renderer: Renderer2) {
     // Events are setting in config
     for (const eventConfig in this.tableService.tableConfig.rowEvents) {
-      this.renderer.listen(elRef.nativeElement, eventConfig, (event) => {
+      this._renderer.listen(_elRef.nativeElement, eventConfig, (event) => {
         this.tableService.tableConfig.rowEvents[eventConfig](event);
       });
     }
-    // this.renderer.listen(elRef.nativeElement, 'click', (event) => {
-    //   this.tableService.tableConfig.rowEvents.click(event);
-    // });
   }
 
   ngOnInit() {
     // Add name of class row. Value is set in config
-    // debugger;
     this.classRow = this.tableService.tableConfig.rowClass(this.tableService.items[this.rowIndex]);
   }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {TableService} from '../../table.service';
+import { TableService } from '../../table.service';
+
 
 @Component({
   selector: '[app-table-header]',
@@ -8,25 +9,19 @@ import {TableService} from '../../table.service';
 })
 export class HeaderComponent implements OnInit {
 
-  public columns: string[];
   public templates = [];
 
-  // Индексы колонки и столбца в шаблоне
+  // Column and row indexes in template
   @Input() index: number;
 
-  constructor(private tableService: TableService) {}
+  constructor(public tableService: TableService) {}
 
-  // Инициализация контекста для ngTemplateOutletContext
+  // Context initialization for ngTemplateOutletContext
   public initCellContext() {
     this.templates = this.tableService.templatesCells;
-    console.log('header->initCellContext->headers');
   }
 
   ngOnInit() {
     this.initCellContext();
   }
-
-  // ngAfterViewInit() {
-  //   console.log('headerTemplate');
-  // }
 }

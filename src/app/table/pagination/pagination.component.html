@@ -6,17 +6,17 @@
         <a> << </a>
       </button>
 
-      <button class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': (this.tableService.pages.query.page == 1)}" (click)="prevPage()">
+      <button class="btn btn-sm btn-outline-primary" [ngClass]="{'disabled': (this.tableService.pagination.query.page == 1)}" (click)="prevPage()">
         <a>Пред.<</a>
       </button>
 
-      <button class="btn btn-sm btn-outline-primary" *ngFor="let page of this.tableService.pages.pagesIndex"
+      <button class="btn btn-sm btn-outline-primary" *ngFor="let page of this.pagesIndex"
               [ngStyle]="setStyle(page)" (click)="setPage(page)">
         <a>{{page}}</a>
       </button>
 
       <button class="btn btn-sm btn-outline-primary"
-              [ngClass]="{'disabled': (this.tableService.pages.query.page == pageNum || pageNum == 0)}" (click)="nextPage()">
+              [ngClass]="{'disabled': (this.tableService.pagination.query.page == pageNum || pageNum == 0)}" (click)="nextPage()">
         <a>След.></a>
       </button>
 

@@ -1,53 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TableService } from '../../table.service';
+
 
 @Component({
   selector: 'app-table-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent {
 
-  public curIndex   = this.tableService.pages.query.page;
-  public pageNum    = this.tableService.pages.query.countPages;
-  public pagesIndex = this.tableService.pages.pagesIndex;
+  public pageNum    = this.tableService.pagination.query.countPages;
+  public pagesIndex = this.tableService.pagination.pagesIndex;
 
-  constructor(private tableService: TableService) {}
+  constructor(public tableService: TableService) {}
 
-  ngOnInit() {
+  public prevPage() {
+    this.tableService.pagination.prevPage();
+    this.arrayPages();
   }
 
-  prevPage() {
-    this.tableService.pages.prevPage();
-    this.pagesIndex = this.arrayPages();
+  public setPage(index: number) {
+    this.tableService.pagination.setPage(index);
+    this.arrayPages();
   }
 
-  setPage(index: number) {
-    this.tableService.pages.setPage(index);
-    this.pagesIndex = this.arrayPages();
+  public nextPage() {
+    this.tableService.pagination.nextPage();
+    this.arrayPages();
   }
 
-  nextPage() {
-    this.tableService.pages.nextPage();
-    this.pagesIndex = this.arrayPages();
+  public fstPage() {
+    this.tableService.pagination.fstPage();
+    this.arrayPages();
   }
 
-  fstPage() {
-    this.tableService.pages.fstPage();
-    this.pagesIndex = this.arrayPages();
+  public lastPage() {
+    this.tableService.pagination.lastPage();
+    this.arrayPages();
   }
 
-  lastPage() {
-    this.tableService.pages.lastPage();
-    this.pagesIndex = this.arrayPages();
+  public arrayPages(): any {
+    this.pagesIndex = this.tableService.pagination.arrayPages();
   }
 
-  arrayPages(): any {
-    this.tableService.pages.arrayPages();
-  }
-
-  setStyle(page) {
-    return { 'font-weight': page === this.tableService.pages.query.page ? 'bold' : 'normal' };
+  public setStyle(page) {
+    return { 'font-weight': page === this.tableService.pagination.query.page ? 'bold' : 'normal' };
   }
 
 }
