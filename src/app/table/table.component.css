@@ -4,9 +4,13 @@
   margin-left: auto;
   margin-right: auto;
 }
+.app-table-component-search {
+  position: fixed;
+  margin-left: 212px;
+}
 .filter{
   position: fixed;
-  padding: 5px;
+  padding: 8px;
   z-index: 2000;
   margin-left: 200px;
 }
@@ -15,9 +19,8 @@
   font-weight: normal;
 }
 .dropdown {
-  position: fixed;
-  margin: 11px 417px;
-  z-index: 2000;
+  position: absolute;
+  margin-left: 213px;
 }
 .dropdown select {
   padding: 5px 35px 5px 5px;
@@ -26,4 +29,18 @@
   height: 34px;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+.count-elements-table {
+  position: absolute;
+  margin-left: 213px;
+}
+
+
+mat-table {
+  padding-top: 70px;
+  width: 70%;
+  margin: auto;
+}
+mat-paginator {
+  width: 85%;
 }

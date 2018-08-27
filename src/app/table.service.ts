@@ -65,11 +65,11 @@ export class TableService {
     this.pagination.setPage(1);
   }
 
-  addTemplateHeaders(headerTemplate: any) {
+  public addTemplateHeaders(headerTemplate: any) {
     this.templatesHeaders.push(headerTemplate);
   }
 
-  addTemplateCells(cellTemplate: any) {
+  public addTemplateCells(cellTemplate: any) {
     this.templatesCells.push(cellTemplate);
   }
 

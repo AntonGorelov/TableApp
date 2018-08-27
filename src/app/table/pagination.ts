@@ -103,4 +103,11 @@ export class Pagination {
     this._itemSubject.next();
   }
 
+  // Material Table
+  public pageChange(event) {
+    this.query.page = event.pageIndex + 1;
+    this.query.limit = event.pageSize;
+    this._itemSubject.next();
+  }
+
 }

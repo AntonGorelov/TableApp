@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   flex-flow: column;
+  padding-top: 17px;
 }
 .btn-group label{
   margin-top:10px;

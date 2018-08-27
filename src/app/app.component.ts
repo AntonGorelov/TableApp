@@ -16,7 +16,7 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
 
   public config = {
-    columns: ['id', 'name', 'price'],
+    columns: ['date', 'name', 'guid'],
     limits: [5, 10, 20, 30, 70],
     header: {
       klass: ['header-test-defaults-class'],
