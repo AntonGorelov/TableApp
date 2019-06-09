@@ -1,16 +1,19 @@
+// ANGULAR
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
+// MATERIAL
+import { MaterialModule } from './material.module';
+
+// CORE
 import { AppComponent } from './app.component';
 import { TableComponent } from './table/table.component';
 import { RowComponent } from './table/row/row.component';
 import { HeaderComponent } from './table/header/header.component';
 import { PaginationComponent } from './table/pagination/pagination.component';
 import { CellComponent } from './table/cell/cell.component';
-import { FormsModule } from '@angular/forms';
-
-import { MaterialModule } from './material.module';
 
 // Directives
 import { TableEventDirective } from './table/table-event.directive';

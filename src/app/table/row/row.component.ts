@@ -1,4 +1,7 @@
+// ANGULAR
 import { Component, OnInit, Input, ElementRef, Renderer2 } from '@angular/core';
+
+// CURRENT
 import { TableService } from '../../table.service';
 
 @Component({
@@ -8,35 +11,38 @@ import { TableService } from '../../table.service';
 })
 
 export class RowComponent implements OnInit {
-
   // Element of array Items
-  @Input() item: any;
+  @Input()
+  public item: any;
   // Array of name columns table
-  @Input() columns: string[];
+  @Input()
+  public columns: string[];
   // Index in array row
-  @Input() rowIndex: number;
+  @Input()
+  public rowIndex: number;
 
   public classRow: string;
 
-  constructor(public tableService: TableService,
-              private _elRef: ElementRef,
-              private _renderer: Renderer2) {
-    // Events are setting in config
-    for (const eventConfig in this.tableService.tableConfig.rowEvents) {
-      this._renderer.listen(_elRef.nativeElement, eventConfig, (event) => {
-        this.tableService.tableConfig.rowEvents[eventConfig](event);
-      });
+  constructor(
+    public tableService: TableService,
+    private _elRef: ElementRef,
+    private _renderer: Renderer2
+  ) {
+    if (this.tableService.tableConfig.rowEvents) {
+      for (const eventConfig in this.tableService.tableConfig.rowEvents) {
+        this._renderer.listen(_elRef.nativeElement, eventConfig, (event) => {
+          this.tableService.tableConfig.rowEvents[eventConfig](event);
+        });
+      }
     }
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     // Add name of class row. Value is set in config
     this.classRow = this.tableService.tableConfig.rowClass(this.tableService.items[this.rowIndex]);
   }
 
-  actionsClick(rowIndex, event: MouseEvent, btn) {
+  public actionsClick(rowIndex, event: MouseEvent, btn): void {
     this.tableService.tableConfig.rowClassActions[btn].click(rowIndex, event);
-    console.log('Data ', this.tableService.items[this.rowIndex]);
   }
-
 }

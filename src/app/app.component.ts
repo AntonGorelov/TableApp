@@ -1,6 +1,9 @@
+// ANGULAR
 import { Component, Input } from '@angular/core';
-import { Item } from './item';
 import { HttpClient } from '@angular/common/http';
+
+// CURRENT
+import { Item } from './item';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +11,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+
+  @Input()
+  public index: number;
+  @Input()
+  public rowIndex: number;
 
   // URL to web api
   private _itemsUrl = 'https://boilerplate.firestitch.com/api/dummy';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   public config = {
     columns: ['date', 'name', 'guid'],
@@ -22,6 +31,7 @@ export class AppComponent {
       klass: ['header-test-defaults-class'],
       align: 'center'
     },
+
     rowClass: (row) => {
       return 'custom-row-class';
     },
@@ -51,9 +61,6 @@ export class AppComponent {
       return this.http.get<Item[]>(this._itemsUrl, { params: query });
     }
   };
-
-  @Input() index: number;
-  @Input() rowIndex: number;
 
   public elemClick() {
     console.log('elemclick');

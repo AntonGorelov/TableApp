@@ -26,21 +26,16 @@ export class TableService {
   public singleNameKlasses = [];
   // Name for rows class
   public classRow: string;
-  // dataAppTableCol = {
-  //   nameCol: '',
-  //   value:   ''
-  // };
   public inputName: string;
   public pagination = new Pagination();
 
-  constructor() {
-  }
+  constructor() {}
 
-  public setConfig(config) {
+  public setConfig(config): void {
     this.tableConfig = config;
   }
 
-  public getData() {
+  public getData(): void {
     this.tableConfig.fetch(this.pagination.query).subscribe((items) => {
       this.items = items.data.objects;
       this.navItems = this.items;
@@ -53,23 +48,23 @@ export class TableService {
   }
 
   // Default limit value, if value in config is not exist
-  public isLimit() {
+  public isLimit(): void {
     if (this.tableConfig.limits.length === 0) {
       this.tableConfig.limits.push(this.pagination.query.limit);
     }
   }
 
   // Set limit value in tableComponent
-  public setCountPages(count: number) {
+  public setCountPages(count: number): void {
     this.pagination.query.limit = count;
     this.pagination.setPage(1);
   }
 
-  public addTemplateHeaders(headerTemplate: any) {
+  public addTemplateHeaders(headerTemplate: any): void {
     this.templatesHeaders.push(headerTemplate);
   }
 
-  public addTemplateCells(cellTemplate: any) {
+  public addTemplateCells(cellTemplate: any): void {
     this.templatesCells.push(cellTemplate);
   }
 

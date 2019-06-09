@@ -1,4 +1,7 @@
+// ANGULAR
 import { Component } from '@angular/core';
+
+// CURRENT
 import { TableService } from '../../table.service';
 
 
@@ -12,39 +15,41 @@ export class PaginationComponent {
   public pageNum    = this.tableService.pagination.query.countPages;
   public pagesIndex = this.tableService.pagination.pagesIndex;
 
-  constructor(public tableService: TableService) {}
+  constructor(
+    public tableService: TableService
+  ) {}
 
-  public prevPage() {
+  public prevPage(): void {
     this.tableService.pagination.prevPage();
-    this.arrayPages();
+    this._arrayPages();
   }
 
-  public setPage(index: number) {
+  public setPage(index: number): void {
     this.tableService.pagination.setPage(index);
-    this.arrayPages();
+    this._arrayPages();
   }
 
-  public nextPage() {
+  public nextPage(): void {
     this.tableService.pagination.nextPage();
-    this.arrayPages();
+    this._arrayPages();
   }
 
-  public fstPage() {
+  public fstPage(): void {
     this.tableService.pagination.fstPage();
-    this.arrayPages();
+    this._arrayPages();
   }
 
-  public lastPage() {
+  public lastPage(): void {
     this.tableService.pagination.lastPage();
-    this.arrayPages();
+    this._arrayPages();
   }
 
-  public arrayPages(): any {
-    this.pagesIndex = this.tableService.pagination.arrayPages();
-  }
-
-  public setStyle(page) {
+  public setStyle(page): any {
     return { 'font-weight': page === this.tableService.pagination.query.page ? 'bold' : 'normal' };
+  }
+
+  private _arrayPages(): void {
+    this.pagesIndex = this.tableService.pagination.arrayPages();
   }
 
 }

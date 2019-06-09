@@ -5,13 +5,14 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 })
 export class TableNoteDirective {
 
-  constructor(private templateRef: TemplateRef<any>,
-              private viewContainer: ViewContainerRef) {
-  }
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
+  ) {}
 
-  @Input('tableNote') set TableNote(condition: boolean) {
+  @Input('tableNote')
+  public set TableNote(condition: boolean) {
     if (condition) {
-      // создание представления
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();
