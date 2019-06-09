@@ -1,62 +1,94 @@
 <div class="app-table-component">
 
-  <div class="app-table-component-actions">
-    <div class="form-inline add-del-col">
-      <div class="form-group">
-        <div class="col-md-8">
-          <input class="form-control" [(ngModel)]="nameColumn" placeholder = "Название столбца" />
-          <button class="btn btn-info"   [disabled]="disableColumn()" (click)="addColumn(nameColumn)">Добавить</button>
-          <button class="btn btn-danger" [disabled]="disableColumn()" (click)="deleteColumn(nameColumn)">Удалить</button>
-        </div>
-      </div>
-    </div>
-    <div class="form-inline add-del-row">
-      <div class="form-group">
-        <div class="col-md-5">
-          <input class="form-control" [(ngModel)]="id" placeholder = "ID" />
-          <input class="form-control" [(ngModel)]="name" placeholder = "Название" />
-          <input class="form-control" [(ngModel)]="price" placeholder = "Цена" />
-          <div>
-            <button class="btn btn-info" (click)="addRow(id,name,price)">Добавить</button>
-            <button class="btn btn-danger" (click)="deleteRow(id)">Удалить</button>
-          </div>
+  <mat-form-field class="app-table-component-search">
+    <input matInput placeholder="Search" #search>
+  </mat-form-field>
 
-        </div>
-      </div>
-    </div>
-    <div class="form-inline filter">
-      <div class="form-group">
-        <div class="form-control-sm">
-          <input type="text"   class="form-control" id="inputName" placeholder="Поиск элемента" [(ngModel)]="inputName"/>
-          <button class="btn btn-info" (click)="filterByName()">Найти</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <mat-table #table [dataSource]="tableService.items">
 
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Guid Column -->
+    <ng-container matColumnDef="guid">
+      <mat-header-cell *matHeaderCellDef> Guid </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.guid}} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="tableService.tableConfig.columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: tableService.tableConfig.columns;"></mat-row>
+
+  </mat-table>
+  <mat-paginator [length]="tableService.pagination.query.count"
+                 [pageSize]="tableService.pagination.query.limit"
+                 [pageSizeOptions]="tableService.tableConfig.limits"
+                 (page)="tableService.pagination.pageChange($event)">
+  </mat-paginator>
+
+
+  <!-- Bootstrap Table -->
   <div class="app-table-component-table">
     <table class="table table-bordered table-light">
-      <tr>
-        <th *ngFor="let col of columns" (click)="showNote()">
-          {{col}}
+      <tr id="nameTd">
+        <ng-template app-table-head [ngIf]="!isExistNameCol">
+          <td *ngFor="let col of columns">
+            Header
+          </td>
+        </ng-template>
+        <ng-template app-table-head [ngIf]="isExistNameCol">
+          <td *ngFor="let col of columns; let i = index" (click)="showNote()"
+              [ngClass]="tableService.dataAppTableCol[i].klass[i]"
+              [ngStyle]="{'text-align': tableService.tableConfig.header.align}">
+            {{col}}
 
-          <!-- Template for TableNote Directive -->
-          <p class="app-table-component-table-notes" *tableNote="visible">
-            подробно об элементе
-          </p>
-          <!-- /Template for TableNote Directive -->
+            <!-- Template for TableNote Directive -->
+            <p class="app-table-component-table-notes" *tableNote="visible">
+              подробно об элементе
+            </p>
+            <!-- /Template for TableNote Directive -->
 
-        </th>
+          </td>
+          <td *ngIf="this.tableService.tableConfig.rowClassActions.length > 0">
+          </td>
+        </ng-template>
+
       </tr>
       <tr *ngFor="let navItem of tableService.navItems; let rowIndex = index" app-table-row
           [item]="navItem"
           [columns]="columns"
           [rowIndex]="rowIndex"
+          [ngClass]="tableService.classRow"
           tableEvent>
       </tr>
     </table>
   </div>
 
-  <app-table-pagination *ngIf="items?.length > 0"></app-table-pagination>
+  <mat-form-field class="count-elements-table">
+    <mat-select placeholder="Count elements" (change)="setCountPages($event.value)">
+      <mat-option *ngFor="let val of config.limits" [value]="val">
+        {{val}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--<div class="dropdown">-->
+    <!--<select name="" id="" (change)="setCountPages($event.target.value)">-->
+      <!--<option value="{{c}}" *ngFor="let c of config.limits">-->
+        <!--{{c}}-->
+      <!--</option>-->
+    <!--</select>-->
+  <!--</div>-->
+
+  <app-table-pagination *ngIf="tableService.items?.length > 0"></app-table-pagination>
 </div>
 

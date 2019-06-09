@@ -1,25 +1,46 @@
-.app-table-component{
-
-}
-.form-control{
-  margin: 7px 0px;
-}
 .app-table-component-table{
   padding-top: 70px;
-  width: 46%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
-.app-table-component-actions{
+.app-table-component-search {
   position: fixed;
-  padding-top: 70px;
+  margin-left: 212px;
 }
 .filter{
   position: fixed;
-  padding: 5px;
+  padding: 8px;
+  z-index: 2000;
+  margin-left: 200px;
 }
 .app-table-component-table-notes{
   font-size: small;
   font-weight: normal;
 }
+.dropdown {
+  position: absolute;
+  margin-left: 213px;
+}
+.dropdown select {
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.count-elements-table {
+  position: absolute;
+  margin-left: 213px;
+}
 
+
+mat-table {
+  padding-top: 70px;
+  width: 70%;
+  margin: auto;
+}
+mat-paginator {
+  width: 85%;
+}

@@ -1,25 +1,41 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="app-component">
-  <nav class="navbar fixed-top navbar-light bg-light">
-    <a class="navbar-brand">Table app</a>
-  </nav>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Table App</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
 
   <app-table [config]="config">
 
-    <ng-template app-table-col let-id="id">
-      <h5>column 1</h5>
-      {{id}}
-    </ng-template>
+    <app-table-col nameCol="Date" value="date">
+      <ng-template app-table-head klass="idclass">
+      </ng-template>
+      <ng-template app-table-cell let-id="date">
+        <div (click)="elemClick()">
+          <h5>column 1</h5>
+          {{id}}
+        </div>
+      </ng-template>
+    </app-table-col>
 
-    <ng-template app-table-col let-name="name">
-      <h5>column 2</h5>
-      {{name}}
-    </ng-template>
+    <app-table-col nameCol="Name" value="name">
+      <ng-template app-table-head klass="nameclass">
+      </ng-template>
+      <ng-template app-table-cell let-name="name">
+        <h5>column 2</h5>
+        {{name}}
+      </ng-template>
+    </app-table-col>
 
-    <ng-template app-table-col let-price="price">
-      <h5>column 3</h5>
-      {{price}}
-    </ng-template>
+    <app-table-col nameCol="Guid" value="guid">
+      <ng-template app-table-head klass="priceclass">
+      </ng-template>
+      <ng-template app-table-cell let-price="guid">
+        <h5>column 3</h5>
+        {{price}}
+      </ng-template>
+    </app-table-col>
 
   </app-table>
 
