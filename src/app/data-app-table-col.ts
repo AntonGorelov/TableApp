@@ -7,7 +7,13 @@ export class DataAppTableCol {
   public klass: string[] = [];
   public align: string;
 
-  constructor(name: string, value: string, theader: any, tcell: any, align: string) {
+  constructor(
+    name: string,
+    value: string,
+    theader: any,
+    tcell: any,
+    align: string
+  ) {
     this.nameCol = name;
     this.value   = value;
     this.templateHeader = theader;
@@ -15,7 +21,7 @@ export class DataAppTableCol {
     this.align = align;
   }
 
-  public addClass(classArray: string[]) {
+  public addClass(classArray: string[]): string[] {
     let setArray = [];
     if (this.klass.length > 0) {
       setArray = this.klass;

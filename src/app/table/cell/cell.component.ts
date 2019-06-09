@@ -1,4 +1,7 @@
+// ANGULAR
 import { Component, Input, OnInit } from '@angular/core';
+
+// CURRENT
 import { TableService } from '../../table.service';
 
 
@@ -9,25 +12,29 @@ import { TableService } from '../../table.service';
 export class CellComponent implements OnInit {
 
   // Column and row indexes in template
-  @Input() index: number;
-  @Input() rowIndex: number;
+  @Input()
+  public index: number;
+  @Input()
+  public rowIndex: number;
 
   // Property of column and element of array Item[]
-  @Input() column: string;
-  @Input() item: any;
+  @Input()
+  public column: string;
+  @Input()
+  public item: any;
 
   public items = [];
   public templates = [];
 
   constructor(public tableService: TableService) {}
 
-  // Context initialization for ngTemplateOutletContext
-  public initCellContext() {
-    this.items = this.tableService.navItems;
-    this.templates = this.tableService.templatesCells;
+  public ngOnInit(): void {
+    this._initCellContext();
   }
 
-  ngOnInit() {
-    this.initCellContext();
+  // Context initialization for ngTemplateOutletContext
+  private _initCellContext(): void {
+    this.items = this.tableService.navItems;
+    this.templates = this.tableService.templatesCells;
   }
 }

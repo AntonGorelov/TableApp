@@ -1,5 +1,7 @@
+// ANGULAR
 import { ContentChild, Directive, TemplateRef, Input } from '@angular/core';
 
+// CURRENT
 import { TableHeaderDirective } from './table-header.directive';
 import { TableService } from '../table.service';
 import { TableCellDirective } from './table-cell.directive';
@@ -10,18 +12,21 @@ import { TableCellDirective } from './table-cell.directive';
 })
 export class TableColDirective {
 
-  @Input() nameCol: string;
-  @Input() value: any;
+  @Input()
+  public nameCol: string;
+
+  @Input()
+  public value: any;
 
   // Set header template
   @ContentChild(TableHeaderDirective, { read: TemplateRef })
-  set tableColumns(columnTemplate) {
+  public set tableColumns(columnTemplate) {
     this.tableService.addTemplateHeaders(columnTemplate);
   }
 
   // Set cell template
   @ContentChild(TableCellDirective, { read: TemplateRef })
-  set tableItems(cellTemplate) {
+  public set tableItems(cellTemplate) {
     // Correction: push, so that values are not overwritten
     // this.tableService.templates = templates.toArray();
     this.tableService.addTemplateCells(cellTemplate);

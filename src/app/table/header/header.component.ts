@@ -1,4 +1,7 @@
+// ANGULAR
 import { Component, Input, OnInit } from '@angular/core';
+
+// CURRENT
 import { TableService } from '../../table.service';
 
 
@@ -12,16 +15,17 @@ export class HeaderComponent implements OnInit {
   public templates = [];
 
   // Column and row indexes in template
-  @Input() index: number;
+  @Input()
+  public index: number;
 
   constructor(public tableService: TableService) {}
 
-  // Context initialization for ngTemplateOutletContext
-  public initCellContext() {
-    this.templates = this.tableService.templatesCells;
+  public ngOnInit(): void {
+    this._initCellContext();
   }
 
-  ngOnInit() {
-    this.initCellContext();
+  // Context initialization for ngTemplateOutletContext
+  private _initCellContext(): void {
+    this.templates = this.tableService.templatesCells;
   }
 }

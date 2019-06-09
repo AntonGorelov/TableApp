@@ -1,5 +1,5 @@
+// ANGULAR
 import {
-  AfterViewInit,
   Component,
   ContentChildren,
   Input,
@@ -9,12 +9,14 @@ import {
   ElementRef, ViewChild
 } from '@angular/core';
 
+// RXJS
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { debounceTime } from 'rxjs/operators';
+
+// CURRENT
 import { TableService } from '../table.service';
 import { TableColDirective } from './table-col.directive';
 import { DataAppTableCol } from '../data-app-table-col';
-
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -24,9 +26,10 @@ import { debounceTime } from 'rxjs/operators';
   providers: [ TableService ]
 })
 
-export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class TableComponent implements OnInit, AfterContentInit {
 
-  @Input() config;
+  @Input()
+  public config;
 
   public id: number;
   public name: string;
@@ -55,7 +58,19 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   @ContentChildren(TableColDirective)
   public tableColDirectives: QueryList<TableColDirective>;
 
-  ngAfterContentInit(): void {
+  constructor(public tableService: TableService) {}
+
+  public ngOnInit(): void {
+    this.tableService.setConfig(this.config);
+    this.tableService.getData();
+
+    this.tableService.pagination.itemSubject.subscribe(() => {
+      this.tableService.getData();
+    });
+    this.filterByName();
+  }
+
+  public ngAfterContentInit(): void {
 
     // If name of classes load from config => fill same names;
     this.fillKlass = Array.from([].fill.call({length: 3}, ...this.tableService.tableConfig.header.klass) );
@@ -75,10 +90,9 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
       if (this.dataCols[i].nameCol === undefined) {
         this.dataCols[i].nameCol = this.dataCols[i].value;
       }
-      console.log(this.dataCols[i].klass[i]);
+
     }
     this.tableService.dataAppTableCol = this.dataCols;
-    console.log('TableComponent => dataCols => tS', this.tableService.dataAppTableCol);
 
     // Load name of columns from dataCols object
     for (let i = 0; i < lengthOfTemplatesOfColumns; i++) {
@@ -86,23 +100,8 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
     }
   }
 
-  constructor(public tableService: TableService) {}
-
-  ngOnInit(): void {
-    this.tableService.setConfig(this.config);
-    this.tableService.getData();
-
-    this.tableService.pagination.itemSubject.subscribe(() => {
-      this.tableService.getData();
-    });
-    this.filterByName();
-  }
-
-  ngAfterViewInit(): void {
-  }
-
   // Filtering table items by name
-  public filterByName() {
+  public filterByName(): void {
     fromEvent(this.searchField.nativeElement, 'keyup').pipe(debounceTime(500)).subscribe( () => {
         this.tableService.pagination.query.keyword = this.searchField.nativeElement.value;
         this.tableService.getData();
@@ -110,11 +109,11 @@ export class TableComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   // Show information in the table
-  public showNote() {
+  public showNote(): void {
     this.visible = !this.visible;
   }
 
-  public setCountPages(count: number) {
+  public setCountPages(count: number): void {
     this.tableService.setCountPages(count);
   }
 
